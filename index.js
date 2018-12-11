@@ -59,7 +59,7 @@ class DocsDb {
 
   revertDoc(_id, currentRev, to) {
     const versions = this._history.get(_id)
-    assert(versions.length, "nothing to revert")
+    assert(versions && versions.length, "nothing to revert")
 
     if (to === undefined) to = versions.length - 1
     assert.equal(typeof to, "number", "to should be a number")
@@ -85,7 +85,8 @@ class DocsDb {
       assert.equal(
         oldDoc._rev,
         currentRev,
-        `revs should match ${oldDoc._rev} --- ${currentRev}`,
+        // `revs should match ${oldDoc._rev} --- ${currentRev}`,
+        "revs should match",
       )
       const [a, oldDocHash] = oldDoc._rev.split("-")
       if (oldDocHash === newDocHash) return oldDoc
