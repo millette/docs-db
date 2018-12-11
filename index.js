@@ -53,6 +53,10 @@ class DocsDb {
     return this.sizeCurrent + this.sizeHistory
   }
 
+  getDoc(_id) {
+    return this._db.get(_id)
+  }
+
   deleteDoc(_id, currentRev) {
     return this.updateDoc({ _id, _deleted: true }, currentRev)
   }
