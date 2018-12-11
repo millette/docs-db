@@ -21,6 +21,11 @@ test("create and update doc", (t) => {
   const s3 = db.size
   t.is(db.docCount, 1)
   t.not(s1, s3)
+  t.is(db.historyCount, 2)
+
+  const ids = Array.from(db.docIds)
+  t.is(ids[0], "joe")
+  t.is(ids.length, 1)
 })
 
 test("revert doc (nothing)", (t) => {
