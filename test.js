@@ -41,6 +41,10 @@ test("revert doc", (t) => {
   t.throws(() => db.revertDoc("joe"), AssertionError, "revs should match")
   const doc2 = db.revertDoc("joe", doc._rev)
   t.is(doc2.fee, 1)
+  const doc3 = db.updateDoc({ _id: "joe", fee: 7 }, doc2._rev)
+  const doc4 = db.revertDoc("joe", doc3._rev, 0)
+  t.is(doc4.fee, 1)
+  t.is(doc4._rev, "4-I2jkiBQqcBl4tGmfBVyRw")
 })
 
 test("export/import", (t) => {
@@ -57,4 +61,14 @@ test("metas", (t) => {
   db.updateDoc({ _id: "joe", fee: 1 })
   const [{ _rev }] = db.docMetas
   t.is(_rev, "0-I2jkiBQqcBl4tGmfBVyRw")
+})
+
+test("delete doc", (t) => {
+  const db = new DocsDb()
+  const { _rev } = db.updateDoc({ _id: "joe", fee: 1 })
+  t.is(db.docCount, 1)
+  const doc = db.deleteDoc("joe", _rev)
+  t.is(db.docCount, 1) // count includes deleted
+  t.falsy(doc.fee)
+  t.is(doc._deleted, true)
 })
