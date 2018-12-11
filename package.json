@@ -2,6 +2,7 @@
   "name": "docs-db",
   "version": "0.0.1",
   "license": "AGPL-3.0",
+  "repository": "millette/docs-db",
   "lint-staged": {
     "*.{js,json,md}": [
       "prettier --write",
@@ -22,11 +23,13 @@
     "node": ">= 10.14.1"
   },
   "scripts": {
+    "deps": "dependency-check . && dependency-check . --unused --no-dev",
     "test": "nyc ava"
   },
   "devDependencies": {
     "ava": "^1.0.0-rc.2",
     "chance": "^1.0.18",
+    "dependency-check": "^3.2.1",
     "husky": "^1.2.0",
     "lint-staged": "^8.1.0",
     "nyc": "^13.1.0",
