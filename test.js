@@ -38,12 +38,18 @@ test("revert doc", (t) => {
   t.is(doc2.fee, 1)
 })
 
-test.only("export/import", (t) => {
+test("export/import", (t) => {
   const db = new DocsDb()
   db.updateDoc({ _id: "joe", fee: 1 })
-
   const db2 = new DocsDb(db.export)
   const { _rev } = db2.getDoc("joe")
   t.is(_rev, "0-I2jkiBQqcBl4tGmfBVyRw")
   t.is(db.docCount, 1)
+})
+
+test("metas", (t) => {
+  const db = new DocsDb()
+  db.updateDoc({ _id: "joe", fee: 1 })
+  const [{ _rev }] = db.docMetas
+  t.is(_rev, "0-I2jkiBQqcBl4tGmfBVyRw")
 })
