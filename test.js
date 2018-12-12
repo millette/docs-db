@@ -28,6 +28,23 @@ test("create and update doc", (t) => {
   t.is(ids.length, 1)
 })
 
+test("get doc", (t) => {
+  const db = new DocsDb()
+  const { _rev } = db.updateDoc({ _id: "joe", fee: 1 })
+  t.falsy(db.getDoc("joe", 1))
+  const doc = db.updateDoc({ _id: "joe", fee: 2 }, _rev)
+  t.is(db.getDoc("joe").fee, 2)
+  t.is(db.getDoc("joe", 0).fee, 1)
+  t.is(db.getDoc("joe", "0").fee, 1)
+  t.is(db.getDoc("joe", _rev).fee, 1)
+  t.falsy(db.getDoc("joe", _rev + "nope"))
+  t.falsy(db.getDoc("joe", 10))
+  t.is(db.getDoc("joe", 1).fee, 2)
+  t.is(db.getDoc("joe", "1").fee, 2)
+  t.is(db.getDoc("joe", doc._rev).fee, 2)
+  t.is(db.getDoc("joe", 0).fee, 1)
+})
+
 test("revert doc (nothing)", (t) => {
   const db = new DocsDb()
   t.throws(() => db.revertDoc("joe"), AssertionError, "nothing to revert")
