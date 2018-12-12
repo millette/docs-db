@@ -53,8 +53,34 @@ class DocsDb {
     return this.sizeCurrent + this.sizeHistory
   }
 
-  getDoc(_id) {
-    return this._db.get(_id)
+  getDoc(_id, _rev) {
+    const doc = this._db.get(_id)
+    if (_rev === undefined) return doc
+
+    let a
+    let hash
+    let n
+
+    assert(
+      typeof _rev === "string" || typeof _rev === "number",
+      "_rev should be a string or integer",
+    )
+
+    if (typeof _rev === "string") {
+      const bla = _rev.split("-")
+      a = bla[0]
+      hash = bla[1]
+      n = parseInt(a, 10)
+    } else {
+      n = Math.floor(_rev)
+      a = `${n}`
+    }
+
+    if (hash && _rev === doc._rev) return doc
+    if (!hash && a === doc._rev.split("-")[0]) return doc
+    const docs = this._history.get(_id)
+    if (!docs || !docs.length) return
+    if (!hash || _rev === docs[n]._rev) return docs[n]
   }
 
   deleteDoc(_id, currentRev) {
