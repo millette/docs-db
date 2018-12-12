@@ -57,9 +57,9 @@ class DocsDb {
     const doc = this._db.get(_id)
     if (_rev === undefined) return doc
 
-    let a
     let hash
-    let n
+    let n = Math.floor(_rev)
+    let a = `${n}`
 
     assert(
       typeof _rev === "string" || typeof _rev === "number",
@@ -71,9 +71,6 @@ class DocsDb {
       a = bla[0]
       hash = bla[1]
       n = parseInt(a, 10)
-    } else {
-      n = Math.floor(_rev)
-      a = `${n}`
     }
 
     if (hash && _rev === doc._rev) return doc
@@ -112,12 +109,7 @@ class DocsDb {
     const newDocHash = this._getHash(newDoc)
     let v
     if (oldDoc._rev) {
-      assert.equal(
-        oldDoc._rev,
-        currentRev,
-        // `revs should match ${oldDoc._rev} --- ${currentRev}`,
-        "revs should match",
-      )
+      assert.equal(oldDoc._rev, currentRev, "revs should match")
       const [a, oldDocHash] = oldDoc._rev.split("-")
       if (oldDocHash === newDocHash) return oldDoc
       v = parseInt(a, 10) + 1
@@ -127,7 +119,7 @@ class DocsDb {
       this._history.set(newDoc._id, [])
     }
 
-    const _updated = new Date().toISOString()
+    const _updated = Date.now()
     const _created = oldDoc._created || _updated
     const _rev = `${v}-${newDocHash}`
     const ret = {
