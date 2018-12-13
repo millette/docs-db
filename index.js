@@ -73,10 +73,13 @@ class DocsDb {
       n = parseInt(a, 10)
     }
 
-    if (hash && _rev === doc._rev) return doc
-    if (!hash && a === doc._rev.split("-")[0]) return doc
+    if (doc) {
+      if (hash && _rev === doc._rev) return doc
+      if (!hash && a === doc._rev.split("-")[0]) return doc
+    }
+
     const docs = this._history.get(_id)
-    if (!docs || !docs.length) return
+    if (!docs || !docs[n]) return
     if (!hash || _rev === docs[n]._rev) return docs[n]
   }
 
