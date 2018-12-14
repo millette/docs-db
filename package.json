@@ -1,5 +1,6 @@
 {
   "name": "docs-db",
+  "description": "Simple docs database with history support.",
   "version": "0.0.4",
   "license": "AGPL-3.0",
   "repository": "millette/docs-db",
