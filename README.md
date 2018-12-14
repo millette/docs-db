@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.org/millette/docs-db.svg?branch=master)](https://travis-ci.org/millette/docs-db)
 [![Coverage Status](https://coveralls.io/repos/github/millette/docs-db/badge.svg?branch=master)](https://coveralls.io/github/millette/docs-db?branch=master)
-[![Dependency Status](https://gemnasium.com/badges/github.com/millette/docs-db.svg)](https://gemnasium.com/github.com/millette/docs-db)
 
 > Simple docs database with history support.
 
