@@ -50,7 +50,10 @@ test("get doc", (t) => {
 
 test("revert doc (nothing)", (t) => {
   const db = new DocsDb()
-  t.throws(() => db.revertDoc("joe"), AssertionError, "nothing to revert")
+  t.throws(() => db.revertDoc("joe"), {
+    instanceOf: AssertionError,
+    message: "nothing to revert",
+  })
 })
 
 test("revert doc", (t) => {
@@ -58,7 +61,10 @@ test("revert doc", (t) => {
   const { _rev } = db.updateDoc({ _id: "joe", fee: 1 })
   const doc = db.updateDoc({ _id: "joe", fee: 2 }, _rev)
   t.is(doc.fee, 2)
-  t.throws(() => db.revertDoc("joe"), AssertionError, "revs should match")
+  t.throws(() => db.revertDoc("joe"), {
+    instanceOf: AssertionError,
+    message: "revs should match",
+  })
   const doc2 = db.revertDoc("joe", doc._rev)
   t.is(doc2.fee, 1)
   const doc3 = db.updateDoc({ _id: "joe", fee: 7 }, doc2._rev)
