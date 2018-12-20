@@ -21,7 +21,7 @@
     "url": "http://robin.millette.info"
   },
   "engines": {
-    "node": ">= 10.14.2"
+    "node": ">= 10"
   },
   "scripts": {
     "coverage": "nyc report --reporter=text-lcov | coveralls",
